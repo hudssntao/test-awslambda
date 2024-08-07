@@ -39,8 +39,8 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -t my-lambda-one .
-          docker build -t my-lambda-two .
+          docker build --build-arg LAMBDA_DIR=firstLambda -t my-lambda-one .
+          docker build --build-arg LAMBDA_DIR=secondLambda -t my-lambda-two .
 
       - name: Tag Docker Image
         run: |
