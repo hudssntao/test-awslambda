@@ -32,11 +32,20 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
+      - name: Run Turbo Prune
+        run: turbo prune --docker && cd out
+
       - name: Build Docker Image
-        run: docker build -t my-lambda .
+        run: |
+          docker build -t my-lambda-one .
+          docker build -t my-lambda-two .
 
       - name: Tag Docker Image
-        run: docker tag my-lambda:latest ${{ steps.login-ecr.outputs.registry }}/my-lambda:latest
+        run: |
+          docker tag my-lambda-one:latest ${{ steps.login-ecr.outputs.registry }}/my-lambda-one:latest
+          docker tag my-lambda-one:latest ${{ steps.login-ecr.outputs.registry }}/my-lambda-two:latest
 
       - name: Push Docker Image to ECR
-        run: docker push ${{ steps.login-ecr.outputs.registry }}/my-lambda:latest
+        run: |
+          docker push ${{ steps.login-ecr.outputs.registry }}/my-lambda-one:latest
+          docker push ${{ steps.login-ecr.outputs.registry }}/my-lambda-two:latest
