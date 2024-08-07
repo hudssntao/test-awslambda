@@ -5,7 +5,9 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "docker-build": "pnpm i && turbo build && docker build -t my-lambda-function .",
+    "docker-run": "docker run -p 3000:8080 my-lambda-function:latest"
   },
   "devDependencies": {
     "prettier": "^3.2.5",
