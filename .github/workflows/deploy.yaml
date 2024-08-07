@@ -13,8 +13,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: List files
-        run: ls -la
+      - name: Install Packages & Build
+        run: pnpm install && pnpm build
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
