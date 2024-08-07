@@ -19,7 +19,9 @@ jobs:
           version: "8.15.6"
 
       - name: Install Packages & Build
-        run: pnpm install && pnpm build
+        run: |
+          pnpm add -g turbo
+          pnpm install && pnpm build
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
