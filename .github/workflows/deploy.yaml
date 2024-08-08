@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - "apps/lambda/**"
+      - ".github/workflows/deploy.yaml"
 
 jobs:
   deploy:
@@ -64,4 +65,4 @@ jobs:
             --image-uri ${{ steps.login-ecr.outputs.registry }}/my-lambda-one:latest
           aws lambda update-function-code \
             --function-name secondLambda \
-            --image-uri ${{ steps.login-ecr.outputs.registry }}/my-lambda-one:latest
+            --image-uri ${{ steps.login-ecr.outputs.registry }}/my-lambda-two:latest
