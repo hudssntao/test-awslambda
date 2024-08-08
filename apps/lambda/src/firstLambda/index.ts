@@ -5,6 +5,6 @@ export async function handler(event: APIGatewayProxyEvent) {
   console.log("running first lambda: ", env.TEST_ENV);
   return {
     statusCode: 200,
-    body: JSON.stringify("Hello from Lambda!"),
+    body: JSON.stringify({ message: "Hello from Lambda!", env: env.TEST_ENV }),
   };
 }
