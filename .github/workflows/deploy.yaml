@@ -20,10 +20,10 @@ jobs:
         with:
           version: "8.15.6"
 
-      - name: Install Packages & Build
+      - name: Install Turbo and Prune
         run: |
           pnpm add -g turbo
-          pnpm install && pnpm build
+          turbo prune --docker lambda && cd out
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -35,9 +35,6 @@ jobs:
       - name: Log in to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
-
-      - name: Run Turbo Prune
-        run: turbo prune --docker lambda && cd out
 
       - name: Build Docker Image
         run: |

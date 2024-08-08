@@ -6,7 +6,8 @@
     "dev": "turbo dev",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "docker-build": "pnpm i && turbo build && docker build -t my-lambda-function .",
+    "docker": "pnpm run docker-build && pnpm run docker-run",
+    "docker-build": "pnpm i && turbo build && docker build --build-arg LAMBDA_DIR=firstLambda -t my-lambda-function .",
     "docker-run": "docker run -p 3000:8080 my-lambda-function:latest"
   },
   "devDependencies": {
