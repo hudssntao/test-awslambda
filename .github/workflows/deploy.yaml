@@ -20,13 +20,11 @@ jobs:
         with:
           version: "8.15.6"
 
-      - name: Install Turbo and Prune
+      - name: Install Turbo and Run Prune
         run: |
           pnpm add -g turbo
-          ls -al
-          turbo prune --docker lambda
+          turbo prune lambda
           cd out
-          ls -al
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
