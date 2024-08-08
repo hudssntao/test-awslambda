@@ -26,6 +26,11 @@ jobs:
           turbo prune lambda
           cd out
 
+      - name: Run Install and Build
+        run: |
+          pnpm install
+          pnpm build
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
