@@ -23,7 +23,9 @@ jobs:
       - name: Install Turbo and Prune
         run: |
           pnpm add -g turbo
-          turbo prune --docker lambda && cd out
+          ls -al
+          turbo prune --docker lambda
+          cd out
           ls -al
 
       - name: Configure AWS Credentials
