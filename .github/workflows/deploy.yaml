@@ -24,6 +24,7 @@ jobs:
         run: |
           pnpm add -g turbo
           turbo prune --docker lambda && cd out
+          ls -al
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
