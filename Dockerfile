@@ -4,6 +4,4 @@ ARG LAMBDA_DIR
 
 COPY ./apps/lambda/dist/${LAMBDA_DIR}/index.js ${LAMBDA_TASK_ROOT}
 
-ENV TEST_ENV="Production"
-
 CMD ["index.handler"] 

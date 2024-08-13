@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  firstLambda:
+    build:
+      context: .
+      args:
+        LAMBDA_DIR: firstLambda
+    image: my-lambda-one  
