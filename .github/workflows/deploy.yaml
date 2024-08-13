@@ -47,7 +47,7 @@ jobs:
         run: |
           cd out
           ls -al
-          cd apps/lambda/firstLambda/dist
+          cd apps/lambda/firstLambda
           ls -al
           cd ../../../../
           ls -al
