@@ -44,26 +44,20 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
 
       - name: Build Docker Image
-        run: |
-          cd out
-          docker build --build-arg LAMBDA_DIR=firstLambda -f ../Dockerfile -t my-lambda-one .
-          docker build --build-arg LAMBDA_DIR=secondLambda -f ../Dockerfile -t my-lambda-two .
+        env:
+          TEST_ENV: ${{ secrets.TEST_ENV }}
+        run: docker compose build
 
       - name: Tag Docker Image
         run: |
           docker tag my-lambda-one:latest ${{ steps.login-ecr.outputs.registry }}/my-lambda-one:latest
-          docker tag my-lambda-two:latest ${{ steps.login-ecr.outputs.registry }}/my-lambda-two:latest
 
       - name: Push Docker Image to ECR
         run: |
           docker push ${{ steps.login-ecr.outputs.registry }}/my-lambda-one:latest
-          docker push ${{ steps.login-ecr.outputs.registry }}/my-lambda-two:latest
 
       - name: Update Lambda Functions
         run: |
           aws lambda update-function-code \
             --function-name firstLambda \
             --image-uri ${{ steps.login-ecr.outputs.registry }}/my-lambda-one:latest
-          aws lambda update-function-code \
-            --function-name secondLambda \
-            --image-uri ${{ steps.login-ecr.outputs.registry }}/my-lambda-two:latest
