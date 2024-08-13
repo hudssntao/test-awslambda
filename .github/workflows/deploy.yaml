@@ -28,6 +28,8 @@ jobs:
           cd out
           pnpm install
           pnpm build
+        env:
+          TEST_ENV: ${{ secrets.TEST_ENV }}
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -44,8 +46,6 @@ jobs:
         run: |
           cd out
           docker compose -f ../docker-compose.yaml build
-        env:
-          TEST_ENV: ${{ secrets.TEST_ENV }}
 
       - name: Tag Docker Image
         run: |
