@@ -46,7 +46,7 @@ jobs:
       - name: Build Docker Image
         run: |
           cd out
-          docker-compose -f ../docker-compose.yaml build
+          docker compose -f ../docker-compose.yaml build
 
       - name: Tag Docker Image
         run: |
