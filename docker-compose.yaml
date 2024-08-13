@@ -1,9 +1,9 @@
-version: '3.8'
+version: "3.8"
 
 services:
   firstLambda:
     build:
-      context: .
+      context: ./out
       args:
         LAMBDA_DIR: firstLambda
-    image: my-lambda-one  
+    image: my-lambda-one

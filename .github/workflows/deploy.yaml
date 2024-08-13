@@ -46,11 +46,6 @@ jobs:
       - name: Build Docker Image
         run: |
           cd out
-          ls -al
-          cd apps/lambda/dist/firstLambda
-          ls -al
-          cd ../../../../
-          ls -al
           docker compose -f ../docker-compose.yaml build
 
       - name: Tag Docker Image
