@@ -44,6 +44,8 @@ jobs:
         run: |
           cd out
           docker compose -f ../docker-compose.yaml build
+        env:
+          TEST_ENV: ${{ secrets.TEST_ENV }}
 
       - name: Tag Docker Image
         run: |
