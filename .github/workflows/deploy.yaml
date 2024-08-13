@@ -44,11 +44,9 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
 
       - name: Build Docker Image
-        env:
-          TEST_ENV: ${{ secrets.TEST_ENV }}
         run: |
-          export TEST_ENV="your_value"
-          docker compose build
+          cd out
+          docker build --build-arg LAMBDA_DIR=firstLambda -f ../Dockerfile -t my-lambda-one .
 
       - name: Tag Docker Image
         run: |
@@ -63,3 +61,16 @@ jobs:
           aws lambda update-function-code \
             --function-name firstLambda \
             --image-uri ${{ steps.login-ecr.outputs.registry }}/my-lambda-one:latest
+
+      - name: Parse and Load Environment Variables
+        run: |
+          echo "$VARS_CONTEXT" | 
+          jq -r 'to_entries | 
+          .[] | 
+          "\(.key)=\(.value)"' >> $GITHUB_ENV
+
+      - name: Update Lambda Environment Variables
+        run: |
+          aws lambda update-function-configuration \
+            --function-name firstLambda \
+            --environment "Variables={$GITHUB_ENV}"
