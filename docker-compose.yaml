@@ -8,3 +8,5 @@ services:
       args:
         LAMBDA_DIR: firstLambda
     image: my-lambda-one
+    environemnt:
+      - TEST_ENV=${TEST_ENV}
