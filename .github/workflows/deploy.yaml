@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+    paths:
+      - "apps/lambda/**"
+      - ".github/workflows/deploy.yaml"
 
 jobs:
   deploy:
@@ -40,17 +43,27 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Build Docker container
-        uses: docker/build-push-action@v6
-        with:
-          context: ./out
-          file: ../Dockerfile
-          tags: ${{ steps.login-ecr.outputs.registry }}/my-lambda-one:latest
-          secrets: |
-            "TEST_ENV=${{ secrets.TEST_ENV }}"
+      - name: Build Docker Image
+        run: |
+          cd out
+          docker build --build-arg LAMBDA_DIR=firstLambda -f ../Dockerfile -t my-lambda-one .
+          docker build --build-arg LAMBDA_DIR=secondLambda -f ../Dockerfile -t my-lambda-two .
+
+      - name: Tag Docker Image
+        run: |
+          docker tag my-lambda-one:latest ${{ steps.login-ecr.outputs.registry }}/my-lambda-one:latest
+          docker tag my-lambda-two:latest ${{ steps.login-ecr.outputs.registry }}/my-lambda-two:latest
+
+      - name: Push Docker Image to ECR
+        run: |
+          docker push ${{ steps.login-ecr.outputs.registry }}/my-lambda-one:latest
+          docker push ${{ steps.login-ecr.outputs.registry }}/my-lambda-two:latest
 
       - name: Update Lambda Functions
         run: |
           aws lambda update-function-code \
             --function-name firstLambda \
             --image-uri ${{ steps.login-ecr.outputs.registry }}/my-lambda-one:latest
+          aws lambda update-function-code \
+            --function-name secondLambda \
+            --image-uri ${{ steps.login-ecr.outputs.registry }}/my-lambda-two:latest
