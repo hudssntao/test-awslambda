@@ -4,6 +4,7 @@ services:
   firstLambda:
     build:
       context: ./out
+      dockerfile: ./Dockerfile
       args:
         LAMBDA_DIR: firstLambda
     image: my-lambda-one
